@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teste_tec3/pages/home_page/controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+  final homePageController = HomePageController();
 
   @override
   void initState() {
@@ -69,34 +71,49 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("$index"),
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("$index"),
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("$index"),
-                      );
-                    },
-                  ),
-                ],
+              child: FutureBuilder(
+                future: homePageController.getAllData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return TabBarView(
+                      controller: _tabController,
+                      children: [
+                        ListView.builder(
+                          itemCount: homePageController.filmsTitles.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title:
+                                  Text(homePageController.filmsTitles[index]),
+                            );
+                          },
+                        ),
+                        ListView.builder(
+                          itemCount: homePageController.charactersNames.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(
+                                  homePageController.charactersNames[index]),
+                            );
+                          },
+                        ),
+                        ListView.builder(
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text("$index"),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           ],

@@ -38,6 +38,7 @@ dependencies:
   fluttermoji: ^1.0.0
   flutter_inappwebview: ^5.4.3+7
   sqflite: ^2.0.3+1
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
