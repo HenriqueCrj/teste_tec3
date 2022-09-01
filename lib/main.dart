@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'pages/avatar_page/index.dart';
 import 'pages/home_page/index.dart';
 import 'pages/site_page/index.dart';
+import 'services/service_locator.dart';
 
 void main() async {
+  setupGetIt();
   runApp(const SWApp());
 }
 

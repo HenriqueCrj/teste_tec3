@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class Favorite extends Equatable {
   final String title;
+  // Os itens favoritos podem ser ter como categoria: "film" ou "person"
   final String category;
 
   const Favorite(this.title, this.category);
