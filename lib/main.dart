@@ -4,7 +4,7 @@ import 'pages/avatar_page/index.dart';
 import 'pages/home_page/index.dart';
 import 'pages/site_page/index.dart';
 
-void main() {
+void main() async {
   runApp(const SWApp());
 }
 

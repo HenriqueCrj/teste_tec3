@@ -3,16 +3,20 @@ import 'dart:convert' as convert;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:teste_tec3/models/favorite.dart';
+
 class HomePageController {
   List<String> charactersNames = [];
   List<String> filmsTitles = [];
-  ValueNotifier<List<String>> favorites = ValueNotifier([]);
+  ValueNotifier<List<Favorite>> favorites = ValueNotifier([]);
 
   Future<void> getAllData() async {
+    await getFavorites();
     await getPeople();
     await getFilms();
-    await getFavorites();
   }
+
+  Future<void> getFavorites() async {}
 
   Future<void> getPeople() async {
     var url = Uri.parse("https://swapi.dev/api/people/");
@@ -25,7 +29,6 @@ class HomePageController {
           .jsonDecode(convert.utf8.decode(response.bodyBytes))["results"];
       charactersNames =
           results.map((person) => person["name"] as String).toList();
-      print(charactersNames);
     }
   }
 
@@ -39,9 +42,17 @@ class HomePageController {
       List<dynamic> results = convert
           .jsonDecode(convert.utf8.decode(response.bodyBytes))["results"];
       filmsTitles = results.map((film) => film["title"] as String).toList();
-      print(filmsTitles);
     }
   }
 
-  Future<void> getFavorites() async {}
+  void switchFavoriteForTitle(Favorite favorite) {
+    var tempFavorites = favorites.value;
+
+    if (favorites.value.contains(favorite)) {
+      tempFavorites.remove(favorite);
+    } else {
+      tempFavorites.add(favorite);
+    }
+    favorites.value = List.from(tempFavorites);
+  }
 }

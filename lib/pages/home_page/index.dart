@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:teste_tec3/models/favorite.dart';
 import 'package:teste_tec3/pages/home_page/controller.dart';
+
+import 'widgets/list_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,12 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+  late final Future? itemsLoaded;
   final homePageController = HomePageController();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    itemsLoaded = homePageController.getAllData();
   }
 
   @override
@@ -24,12 +29,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor: Colors.grey[700],
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.grey[900],
           title: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed("/site_page"),
             child: const Text("Site oficial"),
           ),
           actions: [
@@ -40,7 +46,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.of(context).pushNamed("/avatar_page"),
                 icon: const Icon(Icons.person),
               ),
             ),
@@ -72,40 +79,76 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
             Expanded(
               child: FutureBuilder(
-                future: homePageController.getAllData(),
+                future: itemsLoaded,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return TabBarView(
-                      controller: _tabController,
-                      children: [
-                        ListView.builder(
-                          itemCount: homePageController.filmsTitles.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title:
-                                  Text(homePageController.filmsTitles[index]),
-                            );
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: homePageController.charactersNames.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                  homePageController.charactersNames[index]),
-                            );
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text("$index"),
-                            );
-                          },
-                        ),
-                      ],
-                    );
+                    return ValueListenableBuilder<List<Favorite>>(
+                        valueListenable: homePageController.favorites,
+                        builder: (context, favorites, child) {
+                          return TabBarView(
+                            controller: _tabController,
+                            children: [
+                              ListView.builder(
+                                itemCount:
+                                    homePageController.filmsTitles.length,
+                                itemBuilder: (context, index) {
+                                  var data = Favorite(
+                                    homePageController.filmsTitles[index],
+                                    "film",
+                                  );
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ListItem(
+                                      initialFavoriteState:
+                                          favorites.contains(data),
+                                      text: data.title,
+                                      category: "film",
+                                      onPressed: (favorite) {
+                                        homePageController
+                                            .switchFavoriteForTitle(favorite);
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                              ListView.builder(
+                                itemCount:
+                                    homePageController.charactersNames.length,
+                                itemBuilder: (context, index) {
+                                  var data = Favorite(
+                                    homePageController.charactersNames[index],
+                                    "person",
+                                  );
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ListItem(
+                                      initialFavoriteState:
+                                          favorites.contains(data),
+                                      text: data.title,
+                                      category: "person",
+                                      onPressed: (favorite) {
+                                        homePageController
+                                            .switchFavoriteForTitle(favorite);
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                              ListView.builder(
+                                itemCount: favorites.length,
+                                itemBuilder: (context, index) {
+                                  var favorite = favorites[index];
+                                  return ListTile(
+                                    tileColor: favorite.category == "film"
+                                        ? Colors.red
+                                        : Colors.green,
+                                    title: Text(favorite.title),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(
