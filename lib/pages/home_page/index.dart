@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       category: "film",
                                       onPressed: (favorite) {
                                         homePageController
-                                            .switchFavoriteForTitle(favorite);
+                                            .updateFavorites(favorite);
                                       },
                                     ),
                                   );
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       category: "person",
                                       onPressed: (favorite) {
                                         homePageController
-                                            .switchFavoriteForTitle(favorite);
+                                            .updateFavorites(favorite);
                                       },
                                     ),
                                   );
