@@ -3,7 +3,6 @@ import 'dart:convert' as convert;
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:sqflite/sqflite.dart';
 import 'package:teste_tec3/database/database.dart';
 
 import 'package:teste_tec3/models/favorite.dart';

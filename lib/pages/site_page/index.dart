@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:teste_tec3/widgets/custom_appbar.dart';
 
 class SitePage extends StatefulWidget {
   const SitePage({super.key});
@@ -57,33 +58,11 @@ class _SitePageState extends State<SitePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.grey[900],
-          title: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-              side: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Site oficial"),
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: () =>
-                    Navigator.of(context).pushReplacementNamed("/avatar_page"),
-                icon: const Icon(Icons.person),
-              ),
-            ),
-          ],
+        appBar: CustomAppBar(
+          siteButtonBorderColor: Colors.white,
+          onAvatarPressed: () =>
+              Navigator.of(context).pushReplacementNamed("/avatar_page"),
+          onSitePressed: () => Navigator.of(context).pop(),
         ),
         // WebView para exibir o site da comunidade de Star Wars
         body: InAppWebView(

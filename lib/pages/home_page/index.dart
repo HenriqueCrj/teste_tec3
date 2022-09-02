@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teste_tec3/models/favorite.dart';
 import 'package:teste_tec3/pages/home_page/controller.dart';
 
+import 'package:teste_tec3/widgets/custom_appbar.dart';
 import 'widgets/list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,30 +29,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[700],
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.grey[900],
-          title: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-            ),
-            onPressed: () => Navigator.of(context).pushNamed("/site_page"),
-            child: const Text("Site oficial"),
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed("/avatar_page"),
-                icon: const Icon(Icons.person),
-              ),
-            ),
-          ],
+        appBar: CustomAppBar(
+          onAvatarPressed: () =>
+              Navigator.of(context).pushNamed("/avatar_page"),
+          onSitePressed: () => Navigator.of(context).pushNamed("/site_page"),
         ),
         body: Column(
           children: [

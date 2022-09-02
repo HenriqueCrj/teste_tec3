@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:fluttermoji/fluttermoji.dart';
+import 'package:get/get.dart';
 
 import 'pages/avatar_page/index.dart';
 import 'pages/home_page/index.dart';
@@ -36,6 +38,10 @@ void main() async {
       ));
     }
   }
+
+  // Sou obrigado a usar GetX para esse controlador se injetado e
+  // usado pelos widgets da biblioteca Fluttermoji, então baixei o GetX
+  Get.lazyPut(() => FluttermojiController());
 
   setupGetIt();
   runApp(const SWApp());

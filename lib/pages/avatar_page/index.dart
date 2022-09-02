@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
+import 'package:teste_tec3/widgets/custom_appbar.dart';
 
 class AvatarPage extends StatelessWidget {
   const AvatarPage({super.key});
@@ -8,33 +11,60 @@ class AvatarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.grey[900],
-          title: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-            ),
-            onPressed: () =>
-                Navigator.of(context).pushReplacementNamed("/site_page"),
-            child: const Text("Site oficial"),
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                border: Border.all(
-                  color: Colors.white,
+        backgroundColor: Colors.grey[600],
+        appBar: CustomAppBar(
+          avatarBorderColor: Colors.white,
+          onAvatarPressed: () => Navigator.of(context).pop(),
+          onSitePressed: () =>
+              Navigator.of(context).pushReplacementNamed("/site_page"),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: FluttermojiCircleAvatar(
+                    backgroundColor: Colors.black,
+                  ),
                 ),
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.person),
-              ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Salvar aparência: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        FluttermojiSaveWidget(
+                          child: const Icon(Icons.save),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FluttermojiCustomizer(
+                  scaffoldHeight:
+                      min(300, MediaQuery.of(context).size.height * 0.7),
+                  scaffoldWidth:
+                      min(600, MediaQuery.of(context).size.width * 0.85),
+                  //scaffoldWidth: MediaQuery.of(context).size.width * 0.8,
+                  autosave: false,
+                  theme: FluttermojiThemeData(
+                    boxDecoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
