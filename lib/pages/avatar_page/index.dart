@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
+
 import 'package:teste_tec3/widgets/custom_appbar.dart';
 
 class AvatarPage extends StatelessWidget {
@@ -40,7 +41,7 @@ class AvatarPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // Esse widget salva o estado do avatar
+                        // Esse widget salva o estado do avatar, não há necessidade de gerenciar manualmente
                         FluttermojiSaveWidget(
                           child: const Icon(Icons.save),
                         ),

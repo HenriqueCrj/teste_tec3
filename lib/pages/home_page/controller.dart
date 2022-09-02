@@ -3,26 +3,21 @@ import 'dart:convert' as convert;
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:teste_tec3/database/database.dart';
 
-import 'package:teste_tec3/models/favorite.dart';
-import 'package:teste_tec3/repository/favorite_repository.dart';
+import 'package:teste_tec3/database/database.dart';
+import 'package:teste_tec3/models/swinfo.dart';
+import 'package:teste_tec3/repository/swinfo_repository.dart';
 
 class HomePageController {
   final databaseHelper = GetIt.instance.get<DatabaseHelper>();
-  final favoriteRepository = GetIt.instance.get<FavoriteRepository>();
-  List<String> charactersNames = [];
-  List<String> filmsTitles = [];
-  ValueNotifier<List<Favorite>> favorites = ValueNotifier([]);
+  final swinfoRepository = GetIt.instance.get<SWInfoRepository>();
 
-  Future<void> getAllData() async {
-    await getFavorites();
-    await getPeople();
-    await getFilms();
-  }
+  List<SWInfo> people = [];
+  List<SWInfo> films = [];
+  ValueNotifier<List<SWInfo>> favorites = ValueNotifier([]);
 
-  Future<void> getFavorites() async {
-    favorites.value = await favoriteRepository.getFavorites();
+  void getFavorites() async {
+    favorites.value = await swinfoRepository.getSWInfo();
   }
 
   Future<void> getPeople() async {
@@ -31,11 +26,13 @@ class HomePageController {
       url,
       headers: {"Accept": "application/json"},
     );
+
     if (response.statusCode == 200) {
       List<dynamic> results = convert
           .jsonDecode(convert.utf8.decode(response.bodyBytes))["results"];
-      charactersNames =
-          results.map((person) => person["name"] as String).toList();
+      people = results
+          .map((person) => SWInfo(person["name"] as String, "person"))
+          .toList();
     }
   }
 
@@ -45,22 +42,25 @@ class HomePageController {
       url,
       headers: {"Accept": "application/json"},
     );
+
     if (response.statusCode == 200) {
       List<dynamic> results = convert
           .jsonDecode(convert.utf8.decode(response.bodyBytes))["results"];
-      filmsTitles = results.map((film) => film["title"] as String).toList();
+      films = results
+          .map((film) => SWInfo(film["title"] as String, "film"))
+          .toList();
     }
   }
 
-  void updateFavorites(Favorite favorite) async {
+  void updateFavorites(SWInfo info) async {
     var tempFavorites = favorites.value;
 
-    if (favorites.value.contains(favorite)) {
-      tempFavorites.remove(favorite);
-      favoriteRepository.deleteFavoriteFromDb(favorite);
+    if (favorites.value.contains(info)) {
+      tempFavorites.remove(info);
+      swinfoRepository.deleteSWInfoFromDb(info);
     } else {
-      tempFavorites.add(favorite);
-      favoriteRepository.saveFavoriteFromDb(favorite);
+      tempFavorites.add(info);
+      swinfoRepository.saveSWInfoToDb(info);
     }
     favorites.value = List.from(tempFavorites);
   }

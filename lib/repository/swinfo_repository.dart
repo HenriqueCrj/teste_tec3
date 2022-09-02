@@ -1,46 +1,51 @@
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:teste_tec3/database/database.dart';
-import 'package:teste_tec3/models/favorite.dart';
+import 'package:teste_tec3/models/swinfo.dart';
 
-class FavoriteRepository {
+// Classe para executar operações de IO referentes às informações sobre Star Wars
+class SWInfoRepository {
   final databaseHelper = GetIt.instance.get<DatabaseHelper>();
 
-  Future<List<Favorite>> getFavorites() async {
+  // Obtém todas informações do banco de dados
+  Future<List<SWInfo>> getSWInfo() async {
     Database db = await databaseHelper.getDb();
+
     var rows = await db.rawQuery("SELECT title, category FROM favorites;");
-    return rows.map((row) => Favorite.fromMap(row)).toList();
+    return rows.map((row) => SWInfo.fromMap(row)).toList();
   }
 
-  Future<void> saveFavoriteFromDb(Favorite favorite) async {
+  // Salva uma informação no banco de dados
+  Future<void> saveSWInfoToDb(SWInfo info) async {
     Database db = await databaseHelper.getDb();
-    // Procura pelo favorito no banco de dados
+
     var maps = await db.query(
       "favorites",
       columns: ["title", "category"],
       where: "title = ?",
-      whereArgs: [favorite.title],
+      whereArgs: [info.title],
     );
 
-    // Se o resultado estiver vazio, ele não está lá
+    // Se o resultado estiver vazio, a informação não está lá e pode ser salva
     if (maps.isEmpty) {
       await db.rawInsert(
         "INSERT INTO favorites (title, category) VALUES (?, ?);",
         [
-          favorite.title,
-          favorite.category,
+          info.title,
+          info.category,
         ],
       );
     }
   }
 
-  Future<void> deleteFavoriteFromDb(Favorite favorite) async {
+  // Deleta uma informação no banco de dados
+  Future<void> deleteSWInfoFromDb(SWInfo info) async {
     Database db = await databaseHelper.getDb();
 
     await db.delete(
       "favorites",
       where: "title = ?",
-      whereArgs: [favorite.title],
+      whereArgs: [info.title],
     );
   }
 }
