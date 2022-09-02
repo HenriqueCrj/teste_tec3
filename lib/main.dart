@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'pages/avatar_page/index.dart';
 import 'pages/home_page/index.dart';
@@ -6,6 +9,34 @@ import 'pages/site_page/index.dart';
 import 'services/service_locator.dart';
 
 void main() async {
+  // Garante que a comunicação com a engine será possível antes de rodar o app
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    // Depois tornar falso para desativar debugging de conteudos web
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+    // Verifica se será possível usar Service Workers
+    bool swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+
+    bool swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+          AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(AndroidServiceWorkerClient(
+        // Interceptação de recursos das requisições
+        shouldInterceptRequest: (request) async {
+          return null;
+        },
+      ));
+    }
+  }
+
   setupGetIt();
   runApp(const SWApp());
 }
