@@ -35,7 +35,13 @@ class _ListItemState extends State<ListItem> {
         side: const BorderSide(),
         borderRadius: BorderRadius.circular(8),
       ),
-      title: Text(widget.text),
+      title: Text(
+        widget.text,
+        style: const TextStyle(
+          fontFamily: "Conthrax",
+          fontSize: 14,
+        ),
+      ),
       trailing: IconButton(
         onPressed: () {
           setState(() {

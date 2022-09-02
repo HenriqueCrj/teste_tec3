@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teste_tec3/models/favorite.dart';
 import 'package:teste_tec3/pages/home_page/controller.dart';
 
+import 'package:teste_tec3/widgets/custom_appbar.dart';
 import 'widgets/list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,30 +29,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[700],
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.grey[900],
-          title: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-            ),
-            onPressed: () => Navigator.of(context).pushNamed("/site_page"),
-            child: const Text("Site oficial"),
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed("/avatar_page"),
-                icon: const Icon(Icons.person),
-              ),
-            ),
-          ],
+        appBar: CustomAppBar(
+          onAvatarPressed: () =>
+              Navigator.of(context).pushNamed("/avatar_page"),
+          onSitePressed: () => Navigator.of(context).pushNamed("/site_page"),
         ),
         body: Column(
           children: [
@@ -65,15 +46,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   border: Border.all(),
                 ),
                 tabs: const [
-                  Tab(
-                    text: "Filmes",
-                  ),
-                  Tab(
-                    text: "Personagens",
-                  ),
-                  Tab(
-                    text: "Favoritos",
-                  ),
+                  Tab(text: "Filmes"),
+                  Tab(text: "Personagens"),
+                  Tab(text: "Favoritos"),
                 ],
               ),
             ),
@@ -138,11 +113,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 itemCount: favorites.length,
                                 itemBuilder: (context, index) {
                                   var favorite = favorites[index];
-                                  return ListTile(
-                                    tileColor: favorite.category == "film"
-                                        ? Colors.red
-                                        : Colors.green,
-                                    title: Text(favorite.title),
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(18),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 2,
+                                          color: favorite.category == "film"
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        favorite.title,
+                                        style: const TextStyle(
+                                          fontFamily: "Conthrax",
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
