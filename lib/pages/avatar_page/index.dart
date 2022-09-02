@@ -47,6 +47,18 @@ class AvatarPage extends StatelessWidget {
                           message: "Salvar aparência",
                           child: FluttermojiSaveWidget(
                             radius: 30,
+                            onTap: () {
+                              // A ideia seria mostrar o snackbar quando algum callback avisasse que
+                              // o novo avatar foi salvo em disco (Algo como onComplete por exemplo).
+                              // Mas pelo que olhei no código da biblioteca fluttermoji, não tem esse callback,
+                              // Então apenas simulo o que aconteceria
+                              const snackBar = SnackBar(
+                                duration: Duration(seconds: 1),
+                                content: Text('Novo avatar foi registrado'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
                             child: const Icon(Icons.save),
                           ),
                         ),
