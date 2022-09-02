@@ -65,7 +65,7 @@ class _SitePageState extends State<SitePage> {
               Navigator.of(context).pushReplacementNamed("/avatar_page"),
           onSitePressed: () => Navigator.of(context).pop(),
         ),
-        // WebView para exibir o site da comunidade de Star Wars
+        // WebView para exibir o site de Star Wars
         body: InAppWebView(
           key: webViewKey,
           // A url
