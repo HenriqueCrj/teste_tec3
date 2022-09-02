@@ -13,3 +13,6 @@ A partir desse ponto, escolha a plataforma alvo, seja desktop ou mobile. (Minha 
 
 Uma vez escolhida a plataforma, execute o comando:
   flutter run
+
+Para gerar o apk:
+  flutter build apk --release

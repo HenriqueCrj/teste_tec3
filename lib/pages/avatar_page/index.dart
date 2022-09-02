@@ -38,6 +38,7 @@ class AvatarPage extends StatelessWidget {
                         const Text(
                           "Salvar aparência: ",
                           style: TextStyle(
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -45,6 +46,7 @@ class AvatarPage extends StatelessWidget {
                         Tooltip(
                           message: "Salvar aparência",
                           child: FluttermojiSaveWidget(
+                            radius: 30,
                             child: const Icon(Icons.save),
                           ),
                         ),
@@ -59,6 +61,8 @@ class AvatarPage extends StatelessWidget {
                       min(600, MediaQuery.of(context).size.width * 0.85),
                   autosave: false,
                   theme: FluttermojiThemeData(
+                    primaryBgColor: Colors.grey,
+                    secondaryBgColor: Colors.grey[600],
                     boxDecoration: BoxDecoration(
                       border: Border.all(
                         width: 2,
