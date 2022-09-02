@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste_tec3/models/favorite.dart';
+import 'package:teste_tec3/models/swinfo.dart';
 import 'package:teste_tec3/pages/home_page/controller.dart';
 
 import 'package:teste_tec3/widgets/custom_appbar.dart';
@@ -14,14 +14,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
-  late final Future? itemsLoaded;
-  final homePageController = HomePageController();
+  Future? _filmsLoaded;
+  Future? _peopleLoaded;
+  final _homePageController = HomePageController();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    itemsLoaded = homePageController.getAllData();
+    _homePageController.getFavorites();
+    _filmsLoaded = _homePageController.getFilms();
+    _peopleLoaded = _homePageController.getPeople();
   }
 
   @override
@@ -53,100 +56,109 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
-                future: itemsLoaded,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return ValueListenableBuilder<List<Favorite>>(
-                        valueListenable: homePageController.favorites,
-                        builder: (context, favorites, child) {
-                          return TabBarView(
-                            controller: _tabController,
-                            children: [
-                              ListView.builder(
-                                itemCount:
-                                    homePageController.filmsTitles.length,
-                                itemBuilder: (context, index) {
-                                  var data = Favorite(
-                                    homePageController.filmsTitles[index],
-                                    "film",
-                                  );
-                                  return Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ListItem(
-                                      initialFavoriteState:
-                                          favorites.contains(data),
-                                      text: data.title,
-                                      category: "film",
-                                      onPressed: (favorite) {
-                                        homePageController
-                                            .updateFavorites(favorite);
-                                      },
-                                    ),
-                                  );
-                                },
+              child: ValueListenableBuilder<List<SWInfo>>(
+                valueListenable: _homePageController.favorites,
+                builder: (context, favorites, child) {
+                  return TabBarView(
+                    controller: _tabController,
+                    children: [
+                      FutureBuilder<void>(
+                        future: _filmsLoaded,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            // Lista de filmes
+                            return ListView.builder(
+                              itemCount: _homePageController.films.length,
+                              itemBuilder: (context, index) {
+                                var swinfo = _homePageController.films[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: ListItem(
+                                    initialFavoriteState:
+                                        favorites.contains(swinfo),
+                                    swinfo: swinfo,
+                                    onPressed: (swinfo) {
+                                      _homePageController
+                                          .updateFavorites(swinfo);
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
                               ),
-                              ListView.builder(
-                                itemCount:
-                                    homePageController.charactersNames.length,
-                                itemBuilder: (context, index) {
-                                  var data = Favorite(
-                                    homePageController.charactersNames[index],
-                                    "person",
-                                  );
-                                  return Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ListItem(
-                                      initialFavoriteState:
-                                          favorites.contains(data),
-                                      text: data.title,
-                                      category: "person",
-                                      onPressed: (favorite) {
-                                        homePageController
-                                            .updateFavorites(favorite);
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                              ListView.builder(
-                                itemCount: favorites.length,
-                                itemBuilder: (context, index) {
-                                  var favorite = favorites[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(18),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 2,
-                                          color: favorite.category == "film"
-                                              ? Colors.red
-                                              : Colors.green,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        favorite.title,
-                                        style: const TextStyle(
-                                          fontFamily: "Conthrax",
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                            );
+                          }
+                        },
                       ),
-                    );
-                  }
+                      FutureBuilder<void>(
+                        future: _peopleLoaded,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            // Lista de pessoas
+                            return ListView.builder(
+                              itemCount: _homePageController.people.length,
+                              itemBuilder: (context, index) {
+                                var swinfo = _homePageController.people[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: ListItem(
+                                    initialFavoriteState:
+                                        favorites.contains(swinfo),
+                                    swinfo: swinfo,
+                                    onPressed: (swinfo) {
+                                      _homePageController
+                                          .updateFavorites(swinfo);
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      // Lista de favoritos
+                      ListView.builder(
+                        itemCount: favorites.length,
+                        itemBuilder: (context, index) {
+                          var favorite = favorites[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(18),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: favorite.category == "film"
+                                      ? Colors.red
+                                      : Colors.green,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                favorite.title,
+                                style: const TextStyle(
+                                  fontFamily: "Conthrax",
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
                 },
               ),
             ),

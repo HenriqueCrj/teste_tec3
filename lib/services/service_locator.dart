@@ -1,15 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:teste_tec3/database/database.dart';
-import 'package:teste_tec3/pages/home_page/controller.dart';
-import 'package:teste_tec3/repository/favorite_repository.dart';
+import 'package:teste_tec3/repository/swinfo_repository.dart';
 
 // Localizador de serviço
 final getIt = GetIt.instance;
 
+// Registra recursos que posso usar em várias partes do aplicativo
 void setupGetIt() {
-  getIt.registerLazySingleton<HomePageController>(() => HomePageController());
-  // Um DatabaseHelper pode ser usado em qualquer lugar no app
-  // A implementação pode ser alterada facilmente trocando o valor da instância retornada
+  // A implementação de DatabaseHelper pode ser alterada facilmente trocando o valor da instância retornada
   getIt.registerLazySingleton<DatabaseHelper>(() => SQLiteDatabaseHelper());
-  getIt.registerLazySingleton<FavoriteRepository>(() => FavoriteRepository());
+  getIt.registerLazySingleton<SWInfoRepository>(() => SWInfoRepository());
 }

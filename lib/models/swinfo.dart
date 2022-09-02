@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class Favorite extends Equatable {
+// Representa informação que vem da api de Star Wars
+class SWInfo extends Equatable {
   final String title;
-  // Os itens favoritos podem ser ter como categoria: "film" ou "person"
+  // As informações podem ter como categoria: "film" ou "person"
   final String category;
 
-  const Favorite(this.title, this.category);
+  const SWInfo(this.title, this.category);
 
   Map<String, Object?> toMap() {
     var map = <String, Object?>{
@@ -15,7 +16,7 @@ class Favorite extends Equatable {
     return map;
   }
 
-  Favorite.fromMap(Map<String, Object?> map)
+  SWInfo.fromMap(Map<String, Object?> map)
       : title = map["title"] as String,
         category = map["category"] as String;
 

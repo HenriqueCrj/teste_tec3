@@ -39,7 +39,7 @@ void main() async {
     }
   }
 
-  // Sou obrigado a usar GetX para esse controlador se injetado e
+  // Sou obrigado a usar GetX para esse controlador ser injetado e
   // usado pelos widgets da biblioteca Fluttermoji, então baixei o GetX
   Get.lazyPut(() => FluttermojiController());
 

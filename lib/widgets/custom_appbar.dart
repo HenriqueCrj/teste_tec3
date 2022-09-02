@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 
+// Appbar que se repete quase idêntica em todas as páginas
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onAvatarPressed;
   final VoidCallback onSitePressed;

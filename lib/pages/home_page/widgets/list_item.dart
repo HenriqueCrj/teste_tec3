@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:teste_tec3/models/favorite.dart';
+
+import 'package:teste_tec3/models/swinfo.dart';
 
 class ListItem extends StatefulWidget {
   final bool initialFavoriteState;
-  final ValueChanged<Favorite> onPressed;
-  final String text;
-  final String category;
+  final ValueChanged<SWInfo> onPressed;
+  final SWInfo swinfo;
 
   const ListItem({
     required this.initialFavoriteState,
-    this.text = "",
-    required this.category,
+    required this.swinfo,
     required this.onPressed,
     super.key,
   });
@@ -36,7 +35,7 @@ class _ListItemState extends State<ListItem> {
         borderRadius: BorderRadius.circular(8),
       ),
       title: Text(
-        widget.text,
+        widget.swinfo.title,
         style: const TextStyle(
           fontFamily: "Conthrax",
           fontSize: 14,
@@ -47,7 +46,7 @@ class _ListItemState extends State<ListItem> {
           setState(() {
             _isFavorite = !_isFavorite;
           });
-          widget.onPressed(Favorite(widget.text, widget.category));
+          widget.onPressed(widget.swinfo);
         },
         icon: _isFavorite
             ? const Icon(Icons.favorite)
