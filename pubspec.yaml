@@ -95,11 +95,8 @@ flutter:
   #         weight: 700
   #
   fonts:
-    - family: Starjedi
+    - family: Conthrax
       fonts:
-        - asset: fonts/Starjedi.ttf
-    - family: Starjhol
-      fonts:
-        - asset: fonts/Starjhol.ttf
+        - asset: fonts/conthrax-sb.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

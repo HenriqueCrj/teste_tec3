@@ -38,7 +38,8 @@ class _ListItemState extends State<ListItem> {
       title: Text(
         widget.text,
         style: const TextStyle(
-          fontFamily: "Starjedi",
+          fontFamily: "Conthrax",
+          fontSize: 14,
         ),
       ),
       trailing: IconButton(

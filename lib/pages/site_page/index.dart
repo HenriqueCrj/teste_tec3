@@ -58,6 +58,7 @@ class _SitePageState extends State<SitePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[700],
         appBar: CustomAppBar(
           siteButtonBorderColor: Colors.white,
           onAvatarPressed: () =>

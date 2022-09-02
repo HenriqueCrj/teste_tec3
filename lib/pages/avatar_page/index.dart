@@ -40,6 +40,7 @@ class AvatarPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        // Esse widget salva o estado do avatar
                         FluttermojiSaveWidget(
                           child: const Icon(Icons.save),
                         ),
@@ -52,7 +53,6 @@ class AvatarPage extends StatelessWidget {
                       min(300, MediaQuery.of(context).size.height * 0.7),
                   scaffoldWidth:
                       min(600, MediaQuery.of(context).size.width * 0.85),
-                  //scaffoldWidth: MediaQuery.of(context).size.width * 0.8,
                   autosave: false,
                   theme: FluttermojiThemeData(
                     boxDecoration: BoxDecoration(

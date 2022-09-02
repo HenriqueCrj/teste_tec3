@@ -46,15 +46,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   border: Border.all(),
                 ),
                 tabs: const [
-                  Tab(
-                    text: "Filmes",
-                  ),
-                  Tab(
-                    text: "Personagens",
-                  ),
-                  Tab(
-                    text: "Favoritos",
-                  ),
+                  Tab(text: "Filmes"),
+                  Tab(text: "Personagens"),
+                  Tab(text: "Favoritos"),
                 ],
               ),
             ),
@@ -119,11 +113,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 itemCount: favorites.length,
                                 itemBuilder: (context, index) {
                                   var favorite = favorites[index];
-                                  return ListTile(
-                                    tileColor: favorite.category == "film"
-                                        ? Colors.red
-                                        : Colors.green,
-                                    title: Text(favorite.title),
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(18),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 2,
+                                          color: favorite.category == "film"
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        favorite.title,
+                                        style: const TextStyle(
+                                          fontFamily: "Conthrax",
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
