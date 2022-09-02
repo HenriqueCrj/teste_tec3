@@ -7,12 +7,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:teste_tec3/database/database.dart';
 
 import 'package:teste_tec3/models/favorite.dart';
+import 'package:teste_tec3/repository/favorite_repository.dart';
 
 class HomePageController {
+  final databaseHelper = GetIt.instance.get<DatabaseHelper>();
+  final favoriteRepository = GetIt.instance.get<FavoriteRepository>();
   List<String> charactersNames = [];
   List<String> filmsTitles = [];
   ValueNotifier<List<Favorite>> favorites = ValueNotifier([]);
-  final databaseHelper = GetIt.instance.get<DatabaseHelper>();
 
   Future<void> getAllData() async {
     await getFavorites();
@@ -21,9 +23,7 @@ class HomePageController {
   }
 
   Future<void> getFavorites() async {
-    Database db = await databaseHelper.getDb();
-    var rows = await db.rawQuery("SELECT title, category FROM favorites;");
-    favorites.value = rows.map((row) => Favorite.fromMap(row)).toList();
+    favorites.value = await favoriteRepository.getFavorites();
   }
 
   Future<void> getPeople() async {
@@ -53,47 +53,15 @@ class HomePageController {
     }
   }
 
-  void saveFavoriteFromDb(Favorite favorite) async {
-    Database db = await databaseHelper.getDb();
-    // Procura pelo favorito no banco de dados
-    var maps = await db.query(
-      "favorites",
-      columns: ["title", "category"],
-      where: "title = ?",
-      whereArgs: [favorite.title],
-    );
-
-    // Se o resultado estiver vazio, ele não está lá
-    if (maps.isEmpty) {
-      await db.rawInsert(
-        "INSERT INTO favorites (title, category) VALUES (?, ?);",
-        [
-          favorite.title,
-          favorite.category,
-        ],
-      );
-    }
-  }
-
-  void deleteFavoriteFromDb(Favorite favorite) async {
-    Database db = await databaseHelper.getDb();
-
-    await db.delete(
-      "favorites",
-      where: "title = ?",
-      whereArgs: [favorite.title],
-    );
-  }
-
-  void switchFavoriteForTitle(Favorite favorite) {
+  void updateFavorites(Favorite favorite) async {
     var tempFavorites = favorites.value;
 
     if (favorites.value.contains(favorite)) {
       tempFavorites.remove(favorite);
-      deleteFavoriteFromDb(favorite);
+      favoriteRepository.deleteFavoriteFromDb(favorite);
     } else {
       tempFavorites.add(favorite);
-      saveFavoriteFromDb(favorite);
+      favoriteRepository.saveFavoriteFromDb(favorite);
     }
     favorites.value = List.from(tempFavorites);
   }
