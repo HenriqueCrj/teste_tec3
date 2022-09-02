@@ -42,6 +42,7 @@ class _ListItemState extends State<ListItem> {
         ),
       ),
       trailing: IconButton(
+        tooltip: "Favoritar",
         onPressed: () {
           setState(() {
             _isFavorite = !_isFavorite;

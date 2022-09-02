@@ -8,6 +8,7 @@ import 'package:teste_tec3/database/database.dart';
 import 'package:teste_tec3/models/swinfo.dart';
 import 'package:teste_tec3/repository/swinfo_repository.dart';
 
+// Controlador responsável pelo estado da homepage
 class HomePageController {
   final databaseHelper = GetIt.instance.get<DatabaseHelper>();
   final swinfoRepository = GetIt.instance.get<SWInfoRepository>();

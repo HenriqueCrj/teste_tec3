@@ -49,9 +49,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   border: Border.all(),
                 ),
                 tabs: const [
-                  Tab(text: "Filmes"),
-                  Tab(text: "Personagens"),
-                  Tab(text: "Favoritos"),
+                  Tooltip(
+                    message: "Filmes",
+                    child: Tab(text: "Filmes"),
+                  ),
+                  Tooltip(
+                    message: "Personagens",
+                    child: Tab(text: "Personagens"),
+                  ),
+                  Tooltip(
+                    message: "Favoritos",
+                    child: Tab(text: "Favoritos"),
+                  ),
                 ],
               ),
             ),

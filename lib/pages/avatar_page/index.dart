@@ -42,8 +42,11 @@ class AvatarPage extends StatelessWidget {
                           ),
                         ),
                         // Esse widget salva o estado do avatar, não há necessidade de gerenciar manualmente
-                        FluttermojiSaveWidget(
-                          child: const Icon(Icons.save),
+                        Tooltip(
+                          message: "Salvar aparência",
+                          child: FluttermojiSaveWidget(
+                            child: const Icon(Icons.save),
+                          ),
                         ),
                       ],
                     ),

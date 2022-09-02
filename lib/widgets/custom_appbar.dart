@@ -21,15 +21,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.grey[900],
-      title: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          side: BorderSide(
-            color: siteButtonBorderColor,
+      title: Tooltip(
+        message: "Site oficial",
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            side: BorderSide(
+              color: siteButtonBorderColor,
+            ),
           ),
+          onPressed: onSitePressed,
+          child: const Text("Site oficial"),
         ),
-        onPressed: onSitePressed,
-        child: const Text("Site oficial"),
       ),
       actions: [
         Container(
@@ -42,6 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             shape: BoxShape.circle,
           ),
           child: IconButton(
+            tooltip: "Avatar",
             onPressed: onAvatarPressed,
             icon: FluttermojiCircleAvatar(
               backgroundColor: Colors.black,
