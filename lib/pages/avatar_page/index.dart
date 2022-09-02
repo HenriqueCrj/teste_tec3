@@ -75,6 +75,8 @@ class AvatarPage extends StatelessWidget {
                   theme: FluttermojiThemeData(
                     primaryBgColor: Colors.grey,
                     secondaryBgColor: Colors.grey[600],
+                    unselectedIconColor: Colors.grey[800],
+                    iconColor: Colors.grey[800],
                     boxDecoration: BoxDecoration(
                       border: Border.all(
                         width: 2,
