@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:teste_tec3/models/swinfo.dart';
 
+// Representa uma informação de Star Wars na lista
 class ListItem extends StatefulWidget {
   final bool initialFavoriteState;
   final ValueChanged<SWInfo> onPressed;
