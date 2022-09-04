@@ -5,8 +5,12 @@ import 'package:fluttermoji/fluttermoji.dart';
 
 import 'package:teste_tec3/widgets/custom_appbar.dart';
 
+import 'controller.dart';
+
 class AvatarPage extends StatelessWidget {
-  const AvatarPage({super.key});
+  final avatarPageController = AvatarPageController();
+
+  AvatarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +46,14 @@ class AvatarPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // Esse widget salva o estado do avatar, não há necessidade de gerenciar manualmente
                         Tooltip(
                           message: "Salvar aparência",
+                          // Esse widget salva o estado do avatar usando SharedPreferences internamente
+                          // Eu também salvarei o estado no banco SQLite
                           child: FluttermojiSaveWidget(
                             radius: 30,
                             onTap: () {
-                              // A ideia seria mostrar o snackbar quando algum callback avisasse que
-                              // o novo avatar foi salvo em disco (Algo como onComplete por exemplo).
-                              // Mas pelo que olhei no código da biblioteca fluttermoji, não tem esse callback,
-                              // Então apenas simulo o que aconteceria
+                              avatarPageController.saveAvatar();
                               const snackBar = SnackBar(
                                 duration: Duration(seconds: 1),
                                 content: Text('Novo avatar foi registrado'),

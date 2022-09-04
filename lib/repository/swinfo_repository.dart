@@ -7,7 +7,7 @@ import 'package:teste_tec3/models/swinfo.dart';
 class SWInfoRepository {
   final databaseHelper = GetIt.instance.get<DatabaseHelper>();
 
-  // Obtém todas informações do banco de dados
+  // Obtém todas informações da tabela
   Future<List<SWInfo>> getSWInfo() async {
     Database db = await databaseHelper.getDb();
 
@@ -15,10 +15,9 @@ class SWInfoRepository {
     return rows.map((row) => SWInfo.fromMap(row)).toList();
   }
 
-  // Salva uma informação no banco de dados
+  // Salva uma informação na tabela
   Future<void> saveSWInfoToDb(SWInfo info) async {
     Database db = await databaseHelper.getDb();
-
     var maps = await db.query(
       "favorites",
       columns: ["title", "category"],
@@ -38,7 +37,7 @@ class SWInfoRepository {
     }
   }
 
-  // Deleta uma informação no banco de dados
+  // Deleta uma informação na tabela
   Future<void> deleteSWInfoFromDb(SWInfo info) async {
     Database db = await databaseHelper.getDb();
 

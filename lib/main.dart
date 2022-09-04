@@ -61,7 +61,7 @@ class SWApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) => const HomePage(),
-        "/avatar_page": (context) => const AvatarPage(),
+        "/avatar_page": (context) => AvatarPage(),
         "/site_page": (context) => const SitePage(),
       },
     );
